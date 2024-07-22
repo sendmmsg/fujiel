@@ -40,6 +40,9 @@ void FujiElClimate::transmit_state() {
 
   ESP_LOGI(TAG, "Transmit state");
 
+  delay(500);
+  ESP_LOGI(TAG, "->begin");
+  ac.begin();
   ESP_LOGI(TAG, "->Turn On");
   ac.setCmd(kFujitsuAcCmdTurnOn);
   //uint8_t remote_state[FUJI_EL_STATE_MESSAGE_LENGTH] = {0};
