@@ -27,9 +27,6 @@ class FujiElClimate : public climate_ir::ClimateIR {
                   {climate::CLIMATE_SWING_OFF, climate::CLIMATE_SWING_VERTICAL, climate::CLIMATE_SWING_HORIZONTAL,
                    climate::CLIMATE_SWING_BOTH}) {
 	      setup();
-}
-
-
       }
 
  protected:
