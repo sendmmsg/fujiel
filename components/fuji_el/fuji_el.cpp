@@ -140,7 +140,7 @@ void FujiElClimate::transmit_state() {
   this->power_ = true;
 }
 
-void FujitsuGeneralClimate::transmit_off_() {
+void FujiElClimate::transmit_off_() {
   ESP_LOGV(TAG, "Transmit off");
   ac.setCmd(kFujitsuAcCmdTurnOff);
 
