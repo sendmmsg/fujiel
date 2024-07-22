@@ -40,8 +40,8 @@ void FujiElClimate::transmit_state() {
 
   ESP_LOGI(TAG, "Transmit state");
 
-  ESP_LOGI(TAG, "->Turn Off");
-  ac.setCmd(kFujitsuAcCmdTurnOff);
+  ESP_LOGI(TAG, "->Turn On");
+  ac.setCmd(kFujitsuAcCmdTurnOn);
   //uint8_t remote_state[FUJI_EL_STATE_MESSAGE_LENGTH] = {0};
 
   // Common message header
@@ -69,7 +69,7 @@ void FujiElClimate::transmit_state() {
   if (!this->power_) {
     ESP_LOGI(TAG, "->Turn On");
     ac.setCmd(kFujitsuAcCmdTurnOn);
-  }
+  } 
 
 
   // Set mode
@@ -155,7 +155,7 @@ void FujiElClimate::transmit_state() {
 }
 
 void FujiElClimate::transmit_off_() {
-  ESP_LOGV(TAG, "Transmit off");
+  ESP_LOGI(TAG, "Transmit off");
   ac.setCmd(kFujitsuAcCmdTurnOff);
 
   ac.send();
