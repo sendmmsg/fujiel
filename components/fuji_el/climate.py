@@ -5,7 +5,7 @@ from esphome.const import CONF_ID
 
 AUTO_LOAD = ["climate_ir"]
 
-fuji_el_ns = cg.esphome_ns.namespace("fuji_el_general")
+fuji_el_ns = cg.esphome_ns.namespace("fuji_el")
 FujiElClimate = fuji_el_ns.class_(
     "FujiElClimate", climate_ir.ClimateIR
 )
