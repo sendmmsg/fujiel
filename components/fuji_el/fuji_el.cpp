@@ -18,8 +18,8 @@ void FujiElClimate::setup() {
   ac.begin();
   ESP_LOGI(TAG, "->ARREB1E");
   ac.setModel(ARREB1E);
-  ESP_LOGI(TAG, "->Swing ON");
-  ac.setSwing(kFujitsuAcSwingOn);
+  ESP_LOGI(TAG, "->Swing BOTH");
+  ac.setSwing(kFujitsuAcSwingBoth);
   ESP_LOGI(TAG, "->Mode COOL");
   ac.setMode(kFujitsuAcModeCool);
   ESP_LOGI(TAG, "->Fan High");
