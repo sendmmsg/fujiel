@@ -25,13 +25,19 @@ class FujiElClimate : public climate_ir::ClimateIR {
                   {climate::CLIMATE_FAN_AUTO, climate::CLIMATE_FAN_LOW, climate::CLIMATE_FAN_MEDIUM,
                    climate::CLIMATE_FAN_HIGH, climate::CLIMATE_FAN_QUIET},
                   {climate::CLIMATE_SWING_OFF, climate::CLIMATE_SWING_VERTICAL, climate::CLIMATE_SWING_HORIZONTAL,
-                   climate::CLIMATE_SWING_BOTH}) {}
+                   climate::CLIMATE_SWING_BOTH}) {
+	      setup();
+}
+
+
+      }
 
  protected:
   /// Transmit via IR the state of this climate controller.
   void transmit_state() override;
   /// Transmit via IR power off command.
   void transmit_off_();
+  void setup();
 
   /// Parse incoming message
 //bool on_receive(remote_base::RemoteReceiveData data) override;

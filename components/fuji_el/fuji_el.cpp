@@ -22,7 +22,7 @@ void FujiElClimate::setup() {
   ac.setCmd(kFujitsuAcCmdTurnOn);
 }
 
-void FujitsuGeneralClimate::transmit_state() {
+void FujiElClimate::transmit_state() {
   if (this->mode == climate::CLIMATE_MODE_OFF) {
     this->transmit_off_();
     return;
