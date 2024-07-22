@@ -12,7 +12,7 @@ static const char *const TAG = "fuji_el.climate";
 IRFujitsuAC ac(kIrLed);
 
 void FujiElClimate::setup() {
-  ESP_LOGV(TAG, "setup");
+  ESP_LOGI(TAG, "setup");
   ac.begin();
   ac.setModel(ARREB1E);
   ac.setSwing(kFujitsuAcSwingOff);
@@ -28,7 +28,7 @@ void FujiElClimate::transmit_state() {
     return;
   }
 
-  ESP_LOGV(TAG, "Transmit state");
+  ESP_LOGI(TAG, "Transmit state");
 
     ac.setCmd(kFujitsuAcCmdTurnOff);
   //uint8_t remote_state[FUJI_EL_STATE_MESSAGE_LENGTH] = {0};
