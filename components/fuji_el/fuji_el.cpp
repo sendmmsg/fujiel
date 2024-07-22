@@ -9,7 +9,7 @@ namespace fuji_el {
 
 static const char *const TAG = "fuji_el.climate";
 
-IRFujitsuAc ac(kIrLed);
+IRFujitsuAC ac(kIrLed);
 
 void FujiElClimate::setup() {
   ESP_LOGV(TAG, "setup");
@@ -93,7 +93,7 @@ void FujitsuGeneralClimate::transmit_state() {
       //SET_NIBBLE(remote_state, FUJI_EL_FAN_NIBBLE, FUJI_EL_FAN_HIGH);
       break;
     case climate::CLIMATE_FAN_MEDIUM:
-      ac.setFanSpeed(kFujitsuAcFanMedium);
+      ac.setFanSpeed(kFujitsuAcFanMed);
       //SET_NIBBLE(remote_state, FUJI_EL_FAN_NIBBLE, FUJI_EL_FAN_MEDIUM);
       break;
     case climate::CLIMATE_FAN_LOW:
@@ -114,11 +114,11 @@ void FujitsuGeneralClimate::transmit_state() {
   // Set swing
   switch (this->swing_mode) {
     case climate::CLIMATE_SWING_VERTICAL:
-	    ac.setSwing(kFujitsuAcSwingVertical);
+	    ac.setSwing(kFujitsuAcSwingVert);
       //SET_NIBBLE(remote_state, FUJI_EL_SWING_NIBBLE, FUJI_EL_SWING_VERTICAL);
       break;
     case climate::CLIMATE_SWING_HORIZONTAL:
-	    ac.setSwing(kFujitsuAcSwingHorizontal);
+	    ac.setSwing(kFujitsuAcSwingHoriz);
       //SET_NIBBLE(remote_state, FUJI_EL_SWING_NIBBLE, FUJI_EL_SWING_HORIZONTAL);
       break;
     case climate::CLIMATE_SWING_BOTH:
@@ -188,22 +188,6 @@ void FujitsuGeneralClimate::transmit_off_() {
 //  transmit.perform();
 //}
 
-uint8_t FujitsuGeneralClimate::checksum_state_(uint8_t const *message) {
-  uint8_t checksum = 0;
-  for (uint8_t i = 7; i < FUJI_EL_STATE_MESSAGE_LENGTH - 1; ++i) {
-    checksum += message[i];
-  }
-  return 256 - checksum;
-}
-
-uint8_t FujitsuGeneralClimate::checksum_util_(uint8_t const *message) { return 255 - message[5]; }
-
-bool FujitsuGeneralClimate::on_receive(remote_base::RemoteReceiveData data) {
-  ESP_LOGV(TAG, "Received IR message");
-
-  this->publish_state();
-  return true;
-}
 
 }  // namespace fuji_general
 }  // namespace esphome
