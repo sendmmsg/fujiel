@@ -45,21 +45,8 @@ void FujiElClimate::transmit_state() {
   ac.begin();
   ESP_LOGI(TAG, "->Turn On");
   ac.setCmd(kFujitsuAcCmdTurnOn);
-  //uint8_t remote_state[FUJI_EL_STATE_MESSAGE_LENGTH] = {0};
 
-  // Common message header
-  //remote_state[0] = FUJI_EL_COMMON_BYTE0;
-  //remote_state[1] = FUJI_EL_COMMON_BYTE1;
-  //remote_state[2] = FUJI_EL_COMMON_BYTE2;
-  //remote_state[3] = FUJI_EL_COMMON_BYTE3;
-  //remote_state[4] = FUJI_EL_COMMON_BYTE4;
-  //remote_state[5] = FUJI_EL_MESSAGE_TYPE_STATE;
-  //remote_state[6] = FUJI_EL_STATE_HEADER_BYTE0;
-  //remote_state[7] = FUJI_EL_STATE_HEADER_BYTE1;
-
-  // unknown, does not appear to change with any remote settings
-  //remote_state[14] = FUJI_EL_STATE_FOOTER_BYTE0;
-
+  ESP_LOGI(TAG, "->target temp %d", this->target_temperature);
   // Set temperature
   uint8_t temperature_clamped =
       (uint8_t) roundf(clamp<float>(this->target_temperature, FUJI_EL_TEMP_MIN, FUJI_EL_TEMP_MAX));
