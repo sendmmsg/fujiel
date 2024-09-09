@@ -17,6 +17,7 @@ IRFujitsuAC ac(kIrLed);
 void FujiElClimate::setup() {
   ESP_LOGI(TAG, "setup");
 
+  IRFujitsuAC ac(kIrLed);
   if (this->sensor_) {
     this->sensor_->add_on_state_callback([this](float state) {
       this->current_temperature = state;
@@ -74,13 +75,12 @@ void FujiElClimate::transmit_state() {
     return;
   }
 
+  IRFujitsuAC ac(kIrLed);
   ESP_LOGI(TAG, "Transmit state");
 
   delay(500);
   ESP_LOGI(TAG, "->begin");
   ac.begin();
-  ESP_LOGI(TAG, "->Turn On");
-  ac.setCmd(kFujitsuAcCmdTurnOn);
 
   ESP_LOGI(TAG, "->target temp %d", this->target_temperature);
   // Set temperature
@@ -173,47 +173,19 @@ void FujiElClimate::transmit_state() {
   }
 
   ESP_LOGI(TAG, "Sending");
+  ESP_LOGI(TAG, "->Turn On");
+  ac.setCmd(kFujitsuAcCmdTurnOn);
   ac.send();
   this->power_ = true;
 }
 
 void FujiElClimate::transmit_off_() {
+  IRFujitsuAC ac(kIrLed);
   ESP_LOGI(TAG, "transmit_OFF");
   ac.setCmd(kFujitsuAcCmdTurnOff);
-
   ac.send();
   this->power_ = false;
 }
-
-//void FujitsuGeneralClimate::transmit_(uint8_t const *message, uint8_t length) {
-//  ESP_LOGV(TAG, "Transmit message length %d", length);
-//
-//  auto transmit = this->transmitter_->transmit();
-//  auto *data = transmit.get_data();
-//
-//  data->set_carrier_frequency(FUJI_EL_CARRIER_FREQUENCY);
-//
-//  // Header
-//  data->mark(FUJI_EL_HEADER_MARK);
-//  data->space(FUJI_EL_HEADER_SPACE);
-//
-//  // Data
-//  for (uint8_t i = 0; i < length; ++i) {
-//    const uint8_t byte = message[i];
-//    for (uint8_t mask = 0b00000001; mask > 0; mask <<= 1) {  // write from right to left
-//      data->mark(FUJI_EL_BIT_MARK);
-//      bool bit = byte & mask;
-//      data->space(bit ? FUJI_EL_ONE_SPACE : FUJI_EL_ZERO_SPACE);
-//    }
-//  }
-//
-//  // Footer
-//  data->mark(FUJI_EL_TRL_MARK);
-//  data->space(FUJI_EL_TRL_SPACE);
-//
-//  transmit.perform();
-//}
-
 
 }  // namespace fuji_general
 }  // namespace esphome
