@@ -1,3 +1,6 @@
+#define SEND_FUJITSU_AC 1
+
+
 #include "fuji_el.h"
 #include "esphome.h"
 #include "IRremoteESP8266.h"
@@ -58,7 +61,7 @@ void FujiElClimate::setup() {
   ESP_LOGI(TAG, "->Fan High");
   ac.setFanSpeed(kFujitsuAcFanHigh);
   ESP_LOGI(TAG, "->Temp 24");
-  ac.setTemp(24);  // 24C
+  ac.setTemp(22);  // 24C
   ESP_LOGI(TAG, "->Turn On");
   ac.setCmd(kFujitsuAcCmdTurnOn);
   ac.send();
@@ -88,6 +91,8 @@ void FujiElClimate::transmit_state() {
   ac.setTemp(temperature_clamped);
   ESP_LOGI(TAG, "->Temp %d", temperature_clamped);
 
+  ESP_LOGI(TAG, "->ALWAYS ON");
+  ac.setCmd(kFujitsuAcCmdTurnOn);
   // Set power on
   if (!this->power_) {
     ESP_LOGI(TAG, "->Turn On");
@@ -124,61 +129,56 @@ void FujiElClimate::transmit_state() {
   // Set fan
   switch (this->fan_mode.value()) {
     case climate::CLIMATE_FAN_HIGH:
-      ac.setFanSpeed(kFujitsuAcFanHigh);
-    ESP_LOGI(TAG, "->Fan High");
-      break;
+      	ac.setFanSpeed(kFujitsuAcFanHigh);
+    	ESP_LOGI(TAG, "->Fan High");
+      	break;
     case climate::CLIMATE_FAN_MEDIUM:
-      ac.setFanSpeed(kFujitsuAcFanMed);
-    ESP_LOGI(TAG, "->Fan Medium");
-      break;
+      	ac.setFanSpeed(kFujitsuAcFanMed);
+    	ESP_LOGI(TAG, "->Fan Medium");
+      	break;
     case climate::CLIMATE_FAN_LOW:
-      ac.setFanSpeed(kFujitsuAcFanLow);
-    ESP_LOGI(TAG, "->Fan Low");
+      	ac.setFanSpeed(kFujitsuAcFanLow);
+	ESP_LOGI(TAG, "->Fan Low");
       break;
     case climate::CLIMATE_FAN_QUIET:
-      ac.setFanSpeed(kFujitsuAcFanQuiet);
-    ESP_LOGI(TAG, "->Fan Quiet");
+	ac.setFanSpeed(kFujitsuAcFanQuiet);
+	ESP_LOGI(TAG, "->Fan Quiet");
       break;
     case climate::CLIMATE_FAN_AUTO:
     default:
-    ESP_LOGI(TAG, "->Fan Auto");
-      ac.setFanSpeed(kFujitsuAcFanAuto);
-      //SET_NIBBLE(remote_state, FUJI_EL_FAN_NIBBLE, FUJI_EL_FAN_AUTO);
+    	ESP_LOGI(TAG, "->Fan Auto");
+	ac.setFanSpeed(kFujitsuAcFanAuto);
       break;
   }
 
   // Set swing
   switch (this->swing_mode) {
     case climate::CLIMATE_SWING_VERTICAL:
-	    ac.setSwing(kFujitsuAcSwingVert);
-    ESP_LOGI(TAG, "->Swing Vert");
-      //SET_NIBBLE(remote_state, FUJI_EL_SWING_NIBBLE, FUJI_EL_SWING_VERTICAL);
-      break;
+	ac.setSwing(kFujitsuAcSwingVert);
+    	ESP_LOGI(TAG, "->Swing Vert");
+	break;
     case climate::CLIMATE_SWING_HORIZONTAL:
-	    ac.setSwing(kFujitsuAcSwingHoriz);
-    ESP_LOGI(TAG, "->Swing Horiz");
-      //SET_NIBBLE(remote_state, FUJI_EL_SWING_NIBBLE, FUJI_EL_SWING_HORIZONTAL);
-      break;
+	ac.setSwing(kFujitsuAcSwingHoriz);
+	ESP_LOGI(TAG, "->Swing Horiz");
+	break;
     case climate::CLIMATE_SWING_BOTH:
 	    ac.setSwing(kFujitsuAcSwingBoth);
     ESP_LOGI(TAG, "->Swing Both");
-      //SET_NIBBLE(remote_state, FUJI_EL_SWING_NIBBLE, FUJI_EL_SWING_BOTH);
       break;
     case climate::CLIMATE_SWING_OFF:
     default:
 	    ac.setSwing(kFujitsuAcSwingOff);
     ESP_LOGI(TAG, "->Swing Off");
-      //SET_NIBBLE(remote_state, FUJI_EL_SWING_NIBBLE, FUJI_EL_SWING_NONE);
       break;
   }
 
-    ESP_LOGI(TAG, "Sending");
+  ESP_LOGI(TAG, "Sending");
   ac.send();
   this->power_ = true;
 }
 
 void FujiElClimate::transmit_off_() {
-  ESP_LOGI(TAG, "Transmit off");
+  ESP_LOGI(TAG, "transmit_OFF");
   ac.setCmd(kFujitsuAcCmdTurnOff);
 
   ac.send();
